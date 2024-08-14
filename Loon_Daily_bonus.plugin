@@ -1,0 +1,29 @@
+#!name= Loon 签到脚本
+#!desc= 自用签到脚本
+#!author= Adam
+#!homepage= https://github.com/AdamChrist/LoonScripts
+
+[Script]
+# 携程旅行
+cron "30 8 * * *" script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Ctrip-DailyBonus/Ctrip.js, timeout=300, enabled=false, tag=携程旅行 [签到]
+http-response ^https:\/\/m\.ctrip\.com\/restapi\/soa2\/\d+\/[a-zA-Z]+Login(?:$|\?) script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Ctrip-DailyBonus/Ctrip.js, img-url=https://raw.githubusercontent.com/NobyDa/mini/master/Color/ctrip.png, requires-body=true, enabled=false, tag=携程旅行 [Cookie]
+
+# 途虎养车
+http-request ^https:\/\/api\.tuhu\.cn\/User\/GetInternalCenterInfo script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/tuhu.js, requires-body=false, enabled=false, tag=途虎养车 [Cookie]
+cron "30 8 * * *" script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/tuhu.js, timeout=300, enabled=true, tag=途虎养车 [签到]
+
+# 建行生活
+http-request ^https:\/\/yunbusiness\.ccb\.com\/(clp_coupon|clp_service)\/txCtrl\?txcode=(A3341A038|autoLogin) script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jhsh_checkIn.js, requires-body=true, enabled=false, tag=建行数据 [Cookie]
+cron "30 8 * * *" script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jhsh_checkIn.js, timeout=300, enabled=true, tag=建行生活 [签到]
+
+# 捷停车
+http-request ^https:\/\/sytgate\.jslife\.com\.cn\/core-gateway\/order\/carno\/pay\/info script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jparking_sign.js, requires-body=true, enabled=false, tag=捷停车 [Cookie]
+cron "30 8 * * *" script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jparking_sign.js, timeout=300, enabled=true, tag=捷停车签到 [签到]
+
+# PP停车
+http-request ^https:\/\/api\.660pp\.com\/rest\/[\d\.]+?\/user\/token script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/pp_parking.js, requires-body=false, enabled=false, tag=PP停车 [Cookie]
+cron "30 8 * * *" script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/pp_parking.js, timeout=300, enabled=true, tag=PP停车 [签到]
+
+
+[MITM]
+hostname = m.ctrip.com, api.tuhu.cn, yunbusiness.ccb.com, sytgate.jslife.com.cn, api.660pp.com
