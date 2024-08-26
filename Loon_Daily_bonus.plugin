@@ -1,33 +1,52 @@
-#!name= Loon 签到脚本
-#!desc= 自用签到脚本
-#!author= Adam
-#!homepage= https://github.com/AdamChrist/LoonScripts
+#!name = 自动签到
+#!desc = 自用签到插件，脚本引用自网络
+#!author = Adam
+#!homepage = https://github.com/AdamChrist/LoonScripts
+#!system = ios
+#!loon_version = 3.2.1(745)
+#!tag = 签到
+
+[Argument]
+cronTime = input,"30 8 * * *",tag=定时任务时间,desc=定时任务的cron表达式
+enableCtrip = switch,true,tag=是否启用携程旅行签到
+enableCtripCookie = switch,true,tag=是否启用携程旅行获取cookie的脚本
+enableTuhu = switch,true,tag=是否启用途虎养车签到
+enableTuhuCookie = switch,true,tag=是否启用途虎养车获取cookie的脚本
+enableCCB = switch,true,tag=是否启用建行生活签到
+enableCCBCookie = switch,true,tag=是否启用建行生活获取cookie的脚本
+enableJParking = switch,true,tag=是否启用捷停车签到
+enableJParkingCookie = switch,true,tag=是否启用捷停车获取cookie的脚本
+enablePPParking = switch,true,tag=是否启用PP停车签到
+enablePPParkingCookie = switch,true,tag=是否启用PP停车获取cookie的脚本
+enableHuazhu = switch,true,tag=是否启用华住会签到
+enableHuazhuCookie = switch,true,tag=是否启用华住会获取cookie的脚本
+
+
 
 [Script]
 # 携程旅行
-http-response ^https:\/\/m\.ctrip\.com\/restapi\/soa2\/\d+\/[a-zA-Z]+Login(?:$|\?) script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Ctrip-DailyBonus/Ctrip.js, img-url=https://raw.githubusercontent.com/NobyDa/mini/master/Color/ctrip.png, requires-body=true, enabled=false, tag=携程旅行 [Cookie]
-cron "30 8 * * *" script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Ctrip-DailyBonus/Ctrip.js, timeout=300, enabled=false, tag=携程旅行 [签到]
+http-response ^https:\/\/m\.ctrip\.com\/restapi\/soa2\/\d+\/[a-zA-Z]+Login(?:$|\?) script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Ctrip-DailyBonus/Ctrip.js, img-url=https://raw.githubusercontent.com/NobyDa/mini/master/Color/ctrip.png, requires-body=true, enable={enableCtripCookie}, tag=携程旅行 [Cookie]
+cron {cronTime} script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Ctrip-DailyBonus/Ctrip.js, timeout=300, enable={enableCtrip}, tag=携程旅行 [签到]
 
 # 途虎养车
-http-request ^https:\/\/api\.tuhu\.cn\/User\/GetInternalCenterInfo script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/tuhu.js, requires-body=false, enabled=false, tag=途虎养车 [Cookie]
-cron "30 8 * * *" script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/tuhu.js, timeout=300, enabled=true, tag=途虎养车 [签到]
+http-request ^https:\/\/api\.tuhu\.cn\/User\/GetInternalCenterInfo script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/tuhu.js, requires-body=false, enable={enableTuhuCookie}, tag=途虎养车 [Cookie]
+cron {cronTime} script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/tuhu.js, timeout=300, enable={enableTuhu}, tag=途虎养车 [签到]
 
 # 建行生活
-http-request ^https:\/\/yunbusiness\.ccb\.com\/(clp_coupon|clp_service)\/txCtrl\?txcode=(A3341A038|autoLogin) script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jhsh_checkIn.js, requires-body=true, enabled=false, tag=建行数据 [Cookie]
-cron "30 8 * * *" script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jhsh_checkIn.js, timeout=300, enabled=true, tag=建行生活 [签到]
+http-request ^https:\/\/yunbusiness\.ccb\.com\/(clp_coupon|clp_service)\/txCtrl\?txcode=(A3341A038|autoLogin) script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jhsh_checkIn.js, requires-body=true, enable={enableCCBCookie}, tag=建行生活 [Cookie]
+cron {cronTime} script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jhsh_checkIn.js, timeout=300, enable={enableCCB}, tag=建行生活 [签到]
 
 # 捷停车
-http-request ^https:\/\/sytgate\.jslife\.com\.cn\/core-gateway\/order\/carno\/pay\/info script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jparking_sign.js, requires-body=true, enabled=false, tag=捷停车 [Cookie]
-cron "30 8 * * *" script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jparking_sign.js, timeout=300, enabled=true, tag=捷停车签到 [签到]
+http-request ^https:\/\/sytgate\.jslife\.com\.cn\/core-gateway\/order\/carno\/pay\/info script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jparking_sign.js, requires-body=true, enable={enableJParkingCookie}, tag=捷停车 [Cookie]
+cron {cronTime} script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jparking_sign.js, timeout=300, enable={enableJParking}, tag=捷停车 [签到]
 
 # PP停车
-http-request ^https:\/\/api\.660pp\.com\/rest\/[\d\.]+?\/user\/token script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/pp_parking.js, requires-body=false, enabled=false, tag=PP停车 [Cookie]
-cron "30 8 * * *" script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/pp_parking.js, timeout=300, enabled=true, tag=PP停车 [签到]
+http-request ^https:\/\/api\.660pp\.com\/rest\/[\d\.]+?\/user\/token script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/pp_parking.js, requires-body=false, enable={enablePPParkingCookie}, tag=PP停车 [Cookie]
+cron {cronTime} script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/pp_parking.js, timeout=300, enable={enablePPParking}, tag=PP停车 [签到]
 
 # 华住会
-http-request ^https?:\/\/hweb-personalcenter\.huazhu\.com\/login\/autoLogin$ script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/hzh.js, requires-body=false, enabled=false, tag=华住会 [Cookie]
-cron "30 8 * * *" script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/hzh.js, timeout=300, enabled=true, tag=华住会 [签到]
-
+http-request ^https?:\/\/hweb-personalcenter\.huazhu\.com\/login\/autoLogin$ script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/hzh.js, requires-body=false, enable={enableHuazhuCookie}, tag=华住会 [Cookie]
+cron {cronTime} script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/hzh.js, timeout=300, enable={enableHuazhu}, tag=华住会 [签到]
 
 [MITM]
 hostname = m.ctrip.com, api.tuhu.cn, yunbusiness.ccb.com, sytgate.jslife.com.cn, api.660pp.com, hweb-personalcenter.huazhu.com
