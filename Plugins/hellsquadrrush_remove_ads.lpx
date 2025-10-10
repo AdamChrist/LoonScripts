@@ -1,0 +1,12 @@
+#!name = HellSquadrRush 跳过广告
+#!desc = 解锁跳过广告功能
+#!author = Adam
+#!homepage = https://github.com/AdamChrist/LoonScripts
+#!system = iOS,iPadOS
+#!tag = 广告过滤,捷停车
+
+[Script]
+http-response ^https?:\/\/lobby\.hellsquadrrrush\.com\/ToS_PLAY_AD script-path=https://raw.githubusercontent.com/AdamChrist/LoonScripts/main/js/hellsquadrrrush.js,requires-body=true,tag=去除游戏广告
+
+[MITM]
+hostname = lobby.hellsquadrrrush.com
